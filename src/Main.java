@@ -10,14 +10,34 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
+        Main driver = new Main();
 
+        driver.testGenome();
     }
 
     /**
      * this method tests the Genome class.
      */
     public void testGenome(){
+        Genome testGene = new Genome(0.05);
 
+        System.out.println("Gene:" + testGene.toString());
+        testGene.mutate();
+        System.out.println("Gene:" + testGene.toString());
+        testGene.mutate();
+        System.out.println("Gene:" + testGene.toString());
+        testGene.mutate();
+        System.out.println("Gene:" + testGene.toString());
+        testGene.mutate();
+        System.out.println("Gene:" + testGene.toString());
+        testGene.mutate();
+        System.out.println("Gene:" + testGene.toString());
+        testGene.mutate();
+        System.out.println("Gene:" + testGene.toString());
+        testGene.mutate();
+        System.out.println("Gene:" + testGene.toString());
+        testGene.mutate();
+        System.out.println("Gene:" + testGene.toString());
     }
 
     /**

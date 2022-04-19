@@ -1,8 +1,15 @@
+import java.util.Random;
+
 public class Genome {
     /**
-     * a data element that is initialized to your name.
+     * Instance Variables
      */
-    public String target;
+    private String target = "Devin Hanson";
+    private String value;
+    private double mutationRate;
+    private Random rand = new Random();
+    private char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+            'V', 'W', 'X', 'Y', 'Z', ' ', '-', '\''};
 
     /**
      * a constructor that initializes a Genome with value ‘A’ and
@@ -10,6 +17,8 @@ public class Genome {
      * @param mutationRate
      */
     Genome(double mutationRate){
+        this.value = "A";
+        this.mutationRate = mutationRate;
 
     }
 
@@ -19,6 +28,8 @@ public class Genome {
      * @param gene
      */
     Genome(Genome gene){
+        this.value = gene.value;
+        this.mutationRate = gene.mutationRate;
 
     }
 
@@ -33,6 +44,46 @@ public class Genome {
      *        character.
      */
     public void mutate(){
+        double coinFlip = rand.nextDouble();
+
+        System.out.println("Flipped coin: " + coinFlip);
+        if(coinFlip <= this.mutationRate){
+            int addChar = rand.nextInt(alphabet.length);
+            int stringPos = rand.nextInt(value.length());
+
+            System.out.println("Adding Char " + alphabet[addChar] + " at position " + stringPos);
+
+            value = value.substring(0, stringPos) + alphabet[addChar] + value.substring(stringPos);
+        }
+
+        coinFlip = rand.nextDouble();
+
+        System.out.println("Flipped coin 2: " + coinFlip);
+        if(coinFlip <= this.mutationRate && value.length() >= 2){
+            int removedCharPos = rand.nextInt(value.length());
+
+            System.out.println("Removing Char at " + removedCharPos);
+
+            value = value.substring(0, removedCharPos) + value.substring(removedCharPos + 1);
+        }
+
+        for(int i = 0; i < value.length(); i++){
+            coinFlip = rand.nextDouble();
+
+            if(coinFlip <= this.mutationRate){
+                int changeCharAt = rand.nextInt(alphabet.length);
+                int stringPos = rand.nextInt(value.length());
+
+                System.out.println("Changing Char " + alphabet[changeCharAt] + " at position " + stringPos);
+
+                if(stringPos == 0){
+                    value = value.substring(0, stringPos) + alphabet[changeCharAt] + value.substring(stringPos);
+                }else{
+                    value = value.substring(0, stringPos - 1) + alphabet[changeCharAt] + value.substring(stringPos);
+                }
+            }
+        }
+
 
     }
 
@@ -49,7 +100,40 @@ public class Genome {
      * @param other
      */
     public void crossover(Genome other){
+        String offspring = "";
+        String mother = this.value;
+        String father = other.value;
 
+        if(mother.length() >= father.length()){
+            offspring = getString(offspring, mother, father);
+        }else{
+            offspring = getString(offspring, father, mother);
+        }
+
+        this.value = offspring;
+
+    }
+
+    /**
+     * Returns a new offspring string
+     * @param offspring
+     * @param longer
+     * @param shorter
+     * @return
+     */
+    private String getString(String offspring, String longer, String shorter) {
+        for(int i = 0; i < longer.length() - 1; i++){
+            int pickedParent = rand.nextInt(2);
+
+            if(pickedParent == 0){
+                offspring += longer.substring(i, i);
+            }
+            if(pickedParent == 1 && shorter.substring(i, i) != null){
+                offspring += shorter.substring(i, i);
+            }
+        }
+
+        return offspring;
     }
 
     /**
@@ -80,7 +164,18 @@ public class Genome {
      * @return
      */
     public Integer fitness(){
+        int n = this.value.length();
+        int m = target.length();
+        int l = Math.max(n, m);
+        int f = Math.abs(m - n);
 
+        for(int i = 0; i < l - 1; i++){
+            if(this.value.charAt(i) != target.charAt(i)){
+                f += 1;
+            }
+        }
+
+        return f;
     }
 
     /**
@@ -89,6 +184,6 @@ public class Genome {
      * @return
      */
     public String toString(){
-
+        return "(\"" + this.value + "\", " + fitness() + ")";
     }
 }
