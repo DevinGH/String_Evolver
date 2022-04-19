@@ -46,23 +46,23 @@ public class Genome {
     public void mutate(){
         double coinFlip = rand.nextDouble();
 
-        System.out.println("Flipped coin: " + coinFlip);
+        //System.out.println("Flipped coin: " + coinFlip);
         if(coinFlip <= this.mutationRate){
             int addChar = rand.nextInt(alphabet.length);
             int stringPos = rand.nextInt(value.length());
 
-            System.out.println("Adding Char " + alphabet[addChar] + " at position " + stringPos);
+            //System.out.println("Adding Char " + alphabet[addChar] + " at position " + stringPos);
 
             value = value.substring(0, stringPos) + alphabet[addChar] + value.substring(stringPos);
         }
 
         coinFlip = rand.nextDouble();
 
-        System.out.println("Flipped coin 2: " + coinFlip);
+        //System.out.println("Flipped coin 2: " + coinFlip);
         if(coinFlip <= this.mutationRate && value.length() >= 2){
             int removedCharPos = rand.nextInt(value.length());
 
-            System.out.println("Removing Char at " + removedCharPos);
+            //System.out.println("Removing Char at " + removedCharPos);
 
             value = value.substring(0, removedCharPos) + value.substring(removedCharPos + 1);
         }
@@ -74,7 +74,7 @@ public class Genome {
                 int changeCharAt = rand.nextInt(alphabet.length);
                 int stringPos = rand.nextInt(value.length());
 
-                System.out.println("Changing Char " + alphabet[changeCharAt] + " at position " + stringPos);
+                //System.out.println("Changing Char " + alphabet[changeCharAt] + " at position " + stringPos);
 
                 if(stringPos == 0){
                     value = value.substring(0, stringPos) + alphabet[changeCharAt] + value.substring(stringPos);
@@ -166,11 +166,14 @@ public class Genome {
     public Integer fitness(){
         int n = this.value.length();
         int m = target.length();
-        int l = Math.max(n, m);
+        int l = Math.min(n, m);
         int f = Math.abs(m - n);
 
-        for(int i = 0; i < l - 1; i++){
-            if(this.value.charAt(i) != target.charAt(i)){
+        for(int i = 0; i < l; i++){
+            /*System.out.println("Value substring:" + this.value.substring(i,i));
+            System.out.println("Target substring:" + target.substring(i,i));*/
+            if(!this.value.substring(i,i + 1).equals(target.substring(i,i + 1))){
+                //System.out.println("made it here");
                 f += 1;
             }
         }
