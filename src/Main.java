@@ -1,5 +1,9 @@
 public class Main {
     /**
+     * Instance Variables
+     */
+    public static int generation = 0;
+    /**
      * this method should instantiate a population and call day() until
      * the target string is part of the population.
      * o The  target  string  has  fitness  zero  so  the  loop  should  repeat  until  the  most-fit
@@ -10,9 +14,16 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-        Main driver = new Main();
+        Population population = new Population(100, 0.05);
 
-        driver.testGenome();
+        /*while(population.mostfit.fitness() != 0){
+            population.day();
+            generation += 1;
+            System.out.println("Generation " + generation + ": " + population.mostfit);
+        }*/
+        population.day();
+
+        System.out.println("Number of Generations: " + generation);
     }
 
     /**
