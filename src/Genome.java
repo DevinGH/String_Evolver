@@ -34,35 +34,55 @@ public class Genome {
     }
 
     /**
-     * this function mutates the string in this Genome using the following rules:
-     * o with  mutationRate  chance  add  a  randomly  selected  character  to  a  randomly
-     * selected position in the string.
-     * o with  mutationRate  chance  delete  a  single  character  from  a  randomly  selected
-     * position of the string but do this only if the string has length at least 2.
-     * o for each character in the string:
-     *      ▪ with mutationRate chance the character is replaced by a randomly selected
-     *        character.
+     * Mutates the genome randomly
      */
     public void mutate(){
         double coinFlip = rand.nextDouble();
 
+        this.addMutation(coinFlip);
+
+        coinFlip = rand.nextDouble();
+
+        this.deleteMutation(coinFlip);
+
+        this.changeMutation();
+    }
+
+    /**
+     * * o with  mutationRate  chance  add  a  randomly  selected  character  to  a  randomly
+     * selected position in the string.
+     * @param coinFlip
+     */
+    private void addMutation(double coinFlip){
         if(coinFlip <= this.mutationRate){
             int addChar = rand.nextInt(alphabet.length);
             int stringPos = rand.nextInt(value.length() + 1);
 
             value = value.substring(0, stringPos) + alphabet[addChar] + value.substring(stringPos);
         }
+    }
 
-        coinFlip = rand.nextDouble();
-
+    /**
+     * o with  mutationRate  chance  delete  a  single  character  from  a  randomly  selected
+     * position of the string but do this only if the string has length at least 2.
+     * @param coinFlip
+     */
+    private void deleteMutation(double coinFlip){
         if(coinFlip <= this.mutationRate && value.length() >= 2){
             int removedCharPos = rand.nextInt(value.length());
 
             value = value.substring(0, removedCharPos) + value.substring(removedCharPos + 1);
         }
+    }
 
+    /**
+     * o for each character in the string:
+     *     ▪ with mutationRate chance the character is replaced by a randomly selected
+     *       character.
+     */
+    private void changeMutation(){
         for(int i = 0; i < value.length(); i++){
-            coinFlip = rand.nextDouble();
+            double coinFlip = rand.nextDouble();
 
             if(coinFlip <= this.mutationRate){
                 int changeCharAt = rand.nextInt(alphabet.length);
@@ -75,19 +95,17 @@ public class Genome {
                 }
             }
         }
-
-
     }
 
     /**
      * this function will update the current Genome by crossing
-     * it over with other.
+     * it over with others.
      * o Create the new list by following these steps for each index in the new string (which
      * can  be  of  any  length  between  the  minimum  and  the  maximum  of  the  two  string
      * lengths), starting at the first index:
      *      ▪ Randomly choose one of the two parent strings.
      *      ▪ If the parent string has a character at this index (i.e. it is long enough) copy
-     *        that character into the new list. Otherwise end the new list here and replace
+     *        that character into the new list. Otherwise, end the new list here and replace
      *        the old list.
      * @param other
      */
@@ -136,7 +154,7 @@ public class Genome {
      * o Let f be initialized to |m – n|.
      * o For each character position 0≤i<L add one to f if the character in the current string
      * is different from the character in the target string (or if no character exists at that
-     * position in either string). Otherwise leave f unchanged.
+     * position in either string). Otherwise, leave f unchanged.
      * o Return f.
      *
      * OPTIONAL:
@@ -162,10 +180,7 @@ public class Genome {
         int f = Math.abs(m - n);
 
         for(int i = 0; i < l; i++){
-            /*System.out.println("Value substring:" + this.value.substring(i,i));
-            System.out.println("Target substring:" + target.substring(i,i));*/
             if(!this.value.substring(i,i + 1).equals(target.substring(i,i + 1))){
-                //System.out.println("made it here");
                 f += 1;
             }
         }
@@ -175,7 +190,7 @@ public class Genome {
 
     /**
      * this  function  will  display  the  Genome’s  current  character  string  and
-     * fitness in an easy to read format.
+     * fitness in an easy-to-read format.
      * @return
      */
     public String toString(){

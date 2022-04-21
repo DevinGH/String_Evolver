@@ -3,6 +3,7 @@ public class Main {
      * Instance Variables
      */
     public static int generation = 0;
+
     /**
      * this method should instantiate a population and call day() until
      * the target string is part of the population.
