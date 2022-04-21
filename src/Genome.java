@@ -46,23 +46,17 @@ public class Genome {
     public void mutate(){
         double coinFlip = rand.nextDouble();
 
-        //System.out.println("Flipped coin: " + coinFlip);
         if(coinFlip <= this.mutationRate){
             int addChar = rand.nextInt(alphabet.length);
-            int stringPos = rand.nextInt(value.length());
-
-            //System.out.println("Adding Char " + alphabet[addChar] + " at position " + stringPos);
+            int stringPos = rand.nextInt(value.length() + 1);
 
             value = value.substring(0, stringPos) + alphabet[addChar] + value.substring(stringPos);
         }
 
         coinFlip = rand.nextDouble();
 
-        //System.out.println("Flipped coin 2: " + coinFlip);
         if(coinFlip <= this.mutationRate && value.length() >= 2){
             int removedCharPos = rand.nextInt(value.length());
-
-            //System.out.println("Removing Char at " + removedCharPos);
 
             value = value.substring(0, removedCharPos) + value.substring(removedCharPos + 1);
         }
@@ -73,8 +67,6 @@ public class Genome {
             if(coinFlip <= this.mutationRate){
                 int changeCharAt = rand.nextInt(alphabet.length);
                 int stringPos = rand.nextInt(value.length());
-
-                //System.out.println("Changing Char " + alphabet[changeCharAt] + " at position " + stringPos);
 
                 if(stringPos == 0){
                     value = value.substring(0, stringPos) + alphabet[changeCharAt] + value.substring(stringPos);

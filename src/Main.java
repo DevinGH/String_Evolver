@@ -16,12 +16,11 @@ public class Main {
     public static void main(String[] args) {
         Population population = new Population(100, 0.05);
 
-        /*while(population.mostfit.fitness() != 0){
-            population.day();
-            generation += 1;
+        while(population.mostfit.fitness() != 0){
+            generation++;
             System.out.println("Generation " + generation + ": " + population.mostfit);
-        }*/
-        population.day();
+            population.day();
+        }
 
         System.out.println("Number of Generations: " + generation);
     }

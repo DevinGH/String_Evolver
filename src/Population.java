@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
+import java.util.*;
 
 public class Population {
     /**
@@ -41,59 +39,59 @@ public class Population {
     public void day(){
         int populationSize = population.size();
         System.out.println(populationSize);
-        Iterator<Genome> itr = population.iterator();
 
-        for(int i = 0; i < population.size(); i++){
-            Genome current = population.get(i);
-            System.out.println("Gene " + current + " fitness: " + current.fitness());
-            System.out.println(mostfit + " fitness: " + mostfit.fitness());
-            System.out.println("Average fitness: " + averageFitness());
-
-            if(current.fitness() < mostfit.fitness()){
-                mostfit = current;
-            }
-
-            if(current.fitness() >= averageFitness()){
-                population.remove(current);
-                i--;
-            }
-
-        }
-
-
-       /* while(population.size() != populationSize){
-            int restoreValue = rand.nextInt(2);
-
-            if(restoreValue == 0){
-                int cloneIndex = rand.nextInt(population.size());
-
-                population.add(new Genome(population.get(cloneIndex)));
-            }
-            if(restoreValue == 1){
-                int cloneIndex1 = rand.nextInt(population.size());
-                int cloneIndex2 = rand.nextInt(population.size());
-                Genome clone1 = new Genome(population.get(cloneIndex1));
-
-                clone1.crossover(population.get(cloneIndex2));
-                clone1.mutate();
-
-                population.add(clone1);
-            }
-        }*/
-
+        Collections.sort(population, new PopulationComparator());
+        this.updateMostFit();
+        this.deleteLeastFitHalf();
+        this.fillPopulation(populationSize);
 
     }
 
-    private int averageFitness(){
-        Iterator<Genome> itr = population.iterator();
-        int avgFit = 0;
+    private void updateMostFit(){
+        Genome newfit = population.get(0);
 
-        while(itr.hasNext()){
-            avgFit += itr.next().fitness();
+        mostfit = newfit;
+        System.out.println(mostfit);
+    }
+
+    private void deleteLeastFitHalf(){
+        for(int i = population.size() / 2; i < population.size(); i++){
+            population.remove(population.get(i));
+            i--;
         }
+    }
 
-        avgFit /= population.size();
+    private void fillPopulation(int populationSize){
+        while(population.size() != populationSize){
+            int coinFlip = rand.nextInt(2);
 
-        return avgFit;
+            if(coinFlip == 0){
+                coinFlip = rand.nextInt(50);
+
+                Genome newGenome = new Genome(population.get(coinFlip));
+                newGenome.mutate();
+                population.add(newGenome);
+            }
+            if(coinFlip == 1){
+                coinFlip = rand.nextInt(50);
+
+                Genome newGenome = new Genome(population.get(coinFlip));
+
+                coinFlip = rand.nextInt(50);
+
+                Genome crossoverGenome = new Genome(population.get(coinFlip));
+
+                newGenome.crossover(crossoverGenome);
+                newGenome.mutate();
+                population.add(newGenome);
+            }
+        }
+    }
+}
+
+class PopulationComparator implements Comparator<Genome>{
+    @Override
+    public int compare(Genome g1, Genome g2){
+        return g1.fitness().compareTo(g2.fitness());
     }
 }
