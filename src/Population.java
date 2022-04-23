@@ -32,7 +32,8 @@ public class Population {
         Collections.sort(population);
         this.updateMostFit();
         this.deleteLeastFitHalf();
-        this.fillPopulation(populationSize);
+        int sizeOfHalf = population.size();
+        this.fillPopulation(sizeOfHalf, populationSize);
 
     }
 
@@ -50,7 +51,7 @@ public class Population {
      * o delete the least-fit half of the population.
      */
     private void deleteLeastFitHalf(){
-        for(int i = (population.size() / 4); i < population.size(); i++){
+        for(int i = (population.size() / 2); i < population.size(); i++){
             population.remove(population.get(i));
             i--;
         }
@@ -66,22 +67,22 @@ public class Population {
      *        the result.
      * @param populationSize
      */
-    private void fillPopulation(int populationSize){
+    private void fillPopulation(int half, int populationSize){
         while(population.size() < populationSize){
             int coinFlip = rand.nextInt(2);
 
             if(coinFlip == 0){
-                coinFlip = rand.nextInt(population.size() - 1);
+                coinFlip = rand.nextInt(half - 1);
 
                 Genome newGenome = new Genome(population.get(coinFlip));
                 newGenome.mutate();
                 population.add(newGenome);
             } else{
-                coinFlip = rand.nextInt(population.size() - 1);
+                coinFlip = rand.nextInt(half - 1);
 
                 Genome newGenome = new Genome(population.get(coinFlip));
 
-                coinFlip = rand.nextInt(population.size() - 1);
+                coinFlip = rand.nextInt(half - 1);
 
                 Genome crossoverGenome = new Genome(population.get(coinFlip));
 
