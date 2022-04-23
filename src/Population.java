@@ -51,7 +51,7 @@ public class Population {
      * o delete the least-fit half of the population.
      */
     private void deleteLeastFitHalf(){
-        for(int i = (population.size() / 2); i < population.size(); i++){
+        for(int i = (population.size() / 2) - 1; i < population.size(); i++){
             population.remove(population.get(i));
             i--;
         }
