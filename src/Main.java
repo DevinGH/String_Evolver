@@ -15,15 +15,21 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
+        double startTime = System.currentTimeMillis();
         Population population = new Population(100, 0.05);
 
-        while(population.mostfit.fitness() != 0){
+        while(population.mostfit.fitness() > 0){
             generation++;
-            System.out.println("Generation " + generation + ": " + population.mostfit);
+            System.out.println("Gen " + generation + ": " + population.mostfit);
             population.day();
         }
 
-        System.out.println("Number of Generations: " + generation);
+        generation++;
+        System.out.println("Gen " + generation + ": " + population.mostfit);
+
+        System.out.println("Generations: " + generation);
+        double endTime = System.currentTimeMillis();
+        System.out.println("Running Time: " + Math.round(endTime - startTime) + " milliseconds");
     }
 
     /**

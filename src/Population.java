@@ -28,9 +28,8 @@ public class Population {
      */
     public void day(){
         int populationSize = population.size();
-        System.out.println(populationSize);
 
-        Collections.sort(population, new PopulationComparator());
+        Collections.sort(population);
         this.updateMostFit();
         this.deleteLeastFitHalf();
         this.fillPopulation(populationSize);
@@ -45,14 +44,13 @@ public class Population {
         Genome newfit = population.get(0);
 
         mostfit = newfit;
-        System.out.println(mostfit);
     }
 
     /**
      * o delete the least-fit half of the population.
      */
     private void deleteLeastFitHalf(){
-        for(int i = population.size() / 2; i < population.size(); i++){
+        for(int i = (population.size() / 4); i < population.size(); i++){
             population.remove(population.get(i));
             i--;
         }
@@ -69,22 +67,21 @@ public class Population {
      * @param populationSize
      */
     private void fillPopulation(int populationSize){
-        while(population.size() != populationSize){
+        while(population.size() < populationSize){
             int coinFlip = rand.nextInt(2);
 
             if(coinFlip == 0){
-                coinFlip = rand.nextInt(50);
+                coinFlip = rand.nextInt(population.size() - 1);
 
                 Genome newGenome = new Genome(population.get(coinFlip));
                 newGenome.mutate();
                 population.add(newGenome);
-            }
-            if(coinFlip == 1){
-                coinFlip = rand.nextInt(50);
+            } else{
+                coinFlip = rand.nextInt(population.size() - 1);
 
                 Genome newGenome = new Genome(population.get(coinFlip));
 
-                coinFlip = rand.nextInt(50);
+                coinFlip = rand.nextInt(population.size() - 1);
 
                 Genome crossoverGenome = new Genome(population.get(coinFlip));
 
@@ -99,9 +96,6 @@ public class Population {
 /**
  * Sorts the population in least-to-greatest order
  */
-class PopulationComparator implements Comparator<Genome>{
-    @Override
-    public int compare(Genome g1, Genome g2){
-        return g1.fitness().compareTo(g2.fitness());
-    }
+class PopulationComparator {
+
 }

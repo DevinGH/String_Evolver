@@ -1,10 +1,10 @@
 import java.util.Random;
 
-public class Genome {
+public class Genome implements Comparable<Genome>{
     /**
      * Instance Variables
      */
-    private String target = "Devin Hanson";
+    private String target = "PAULO  SERGIO  LICCIARDI MESSEDER BARRETO";
     private String value;
     private double mutationRate;
     private Random rand = new Random();
@@ -138,7 +138,7 @@ public class Genome {
             if(pickedParent == 0){
                 offspring += longer.substring(i, i);
             }
-            if(pickedParent == 1 && shorter.substring(i, i) != null){
+            if(pickedParent == 1 && i < shorter.length()){
                 offspring += shorter.substring(i, i);
             }
         }
@@ -186,6 +186,16 @@ public class Genome {
         }
 
         return f;
+    }
+
+    /**
+     * compares two genomes to see who has the least fitness
+     * @param g2 the object to be compared.
+     * @return
+     */
+    @Override
+    public int compareTo(Genome g2){
+        return this.fitness().compareTo(g2.fitness());
     }
 
     /**
