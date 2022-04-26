@@ -2,7 +2,7 @@ public class Main {
     /**
      * Instance Variables
      */
-    public static int generation = 0;
+    public static int generation = 1;
 
     /**
      * this method should instantiate a population and call day() until
@@ -19,13 +19,11 @@ public class Main {
         Population population = new Population(100, 0.05);
 
         while(population.mostfit.fitness() > 0){
-            generation++;
-            System.out.println("Gen " + generation + ": " + population.mostfit);
             population.day();
+            System.out.println("Gen " + generation + ": " + population.mostfit);
+            generation++;
         }
 
-        generation++;
-        System.out.println("Gen " + generation + ": " + population.mostfit);
 
         System.out.println("Generations: " + generation);
         double endTime = System.currentTimeMillis();

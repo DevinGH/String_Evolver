@@ -85,14 +85,7 @@ public class Genome implements Comparable<Genome>{
             double coinFlip = rand.nextDouble();
 
             if(coinFlip <= this.mutationRate){
-                int changeCharAt = rand.nextInt(alphabet.length);
-                int stringPos = rand.nextInt(value.length());
-
-                if(stringPos == 0){
-                    value = value.substring(0, stringPos) + alphabet[changeCharAt] + value.substring(stringPos);
-                }else{
-                    value = value.substring(0, stringPos - 1) + alphabet[changeCharAt] + value.substring(stringPos);
-                }
+                value = value.substring(0, i) + alphabet[rand.nextInt(alphabet.length)] + value.substring(i + 1);
             }
         }
     }
@@ -136,10 +129,10 @@ public class Genome implements Comparable<Genome>{
             int pickedParent = rand.nextInt(2);
 
             if(pickedParent == 0){
-                offspring += longer.substring(i, i);
+                offspring += longer.substring(i, i + 1);
             }
             if(pickedParent == 1 && i < shorter.length()){
-                offspring += shorter.substring(i, i);
+                offspring += shorter.substring(i, i + 1);
             }
         }
 
@@ -156,21 +149,6 @@ public class Genome implements Comparable<Genome>{
      * is different from the character in the target string (or if no character exists at that
      * position in either string). Otherwise, leave f unchanged.
      * o Return f.
-     *
-     * OPTIONAL:
-     *  instead  of  the  algorithm  above  use  the  Wagner-Fischer
-     * algorithm for calculating Levenshtein edit distance:
-     * o Let n be the length of the current string. Let m be the length of the target string.
-     * o Create an (n + 1) × (m + 1) matrix D initialized with 0s.
-     * o Fill the first row of the matrix with the column indices and fill the first column of the
-     * matrix with the row indices.
-     * o Implement this nested loop to fill in the rest of the matrix:
-     *  for i from 1 to n
-     *     for j from 1 to m
-     *  if (current[i–1] == target[j–1]) D[i, j] = D[i–1, j–1]
-     *  else D[i, j] = min(D[i–1, j] + 1, D[i, j–1] + 1, D[i–1, j–1] + 1)
-     *
-     * o Return the value stored in D[n,m] + (abs(n–m)+ 1)/2. (Use integer arithmetic.)
      * @return
      */
     public Integer fitness(){
